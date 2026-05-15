@@ -47,3 +47,5 @@ Thumbs.db
 mern-project/client/cypress/videos/
 mern-project/client/cypress/screenshots/
 mern-project/server/env
+
+aws-key/
