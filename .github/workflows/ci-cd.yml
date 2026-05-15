@@ -1,0 +1,32 @@
+name: DevOps Case CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build backend Docker image
+        run: docker build -t devops-backend:ci ./mern-project/server
+
+      - name: Build frontend Docker image
+        run: docker build -t devops-frontend:ci --build-arg REACT_APP_API_URL=http://localhost:5050 ./mern-project/client
+
+      - name: Build Python ETL Docker image
+        run: docker build -t devops-etl:ci ./python-project
+
+      - name: List Docker images
+        run: docker images

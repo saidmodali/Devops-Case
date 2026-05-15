@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etl-cronjob
+  namespace: devops-case
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: etl
+              image: host.docker.internal:5000/devops-etl:local
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
