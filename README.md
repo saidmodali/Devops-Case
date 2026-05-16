@@ -75,7 +75,7 @@ Bu projede kullanılan temel teknolojiler:
 - Terraform
 - AWS EC2
 
----
+
 
 ## 4. Project Structure
 
@@ -489,26 +489,30 @@ http://<EC2_PUBLIC_IP>:30050/healthcheck
 
 ---
 
+
 ## 13. Screenshots
 
 Screenshots dosyaları projeye eklenmiştir.
 
- screenshots:
+Aşağıdaki screenshots, projenin başarılı şekilde çalıştığını ve deploy edildiğini göstermektedir:
 
-1.png  - Local React frontend API Status OK ekranı
-2.png  - Docker Desktop üzerinde Docker Compose containerlarının çalışması
-3.png  - docker ps çıktısı: frontend, backend ve MongoDB containerları running
-4.png  - Terraform init ve terraform validate başarılı çıktısı
-5.png  - AWS Kubernetes servisleri: backend, frontend ve MongoDB servisleri
-6.png  - AWS public frontend URL üzerinde API Status OK ekranı
-7.png  - AWS public backend healthcheck endpoint çıktısı
-8.png  - AWS Kubernetes podları: backend, frontend ve MongoDB Running
-9.png  - GitHub Actions CI/CD workflow başarılı yeşil tik ekranı
-10.png - Kubernetes ETL CronJob manuel job log çıktısı: Response 200
-11.png - Kubernetes CronJob schedule çıktısı: 0 * * * *
-12.png - AWS EC2 instance running ekranı ve public IP bilgisi
-13.png - AWS EC2 volume bilgisi: 25 GiB gp3 volume
+1. `1.png` - Local React frontend API Status OK ekranı
+2. `2.png` - Docker Desktop üzerinde Docker Compose containerlarının çalışması
+3. `3.png` - `docker ps` çıktısı: frontend, backend ve MongoDB containerları running
+4. `4.png` - Terraform init ve terraform validate başarılı çıktısı
+5. `5.png` - AWS Kubernetes servisleri: backend, frontend ve MongoDB servisleri
+6. `6.png` - AWS public frontend URL üzerinde API Status OK ekranı
+7. `7.png` - AWS public backend healthcheck endpoint çıktısı
+8. `8.png` - AWS Kubernetes podları: backend, frontend ve MongoDB Running
+9. `9.png` - GitHub Actions CI/CD workflow başarılı yeşil tik ekranı
+10. `10.png` - Kubernetes ETL CronJob manuel job log çıktısı: Response 200
+11. `11.png` - Kubernetes CronJob schedule çıktısı: `0 * * * *`
+12. `12.png` - AWS EC2 instance running ekranı ve public IP bilgisi
+13. `13.png` - AWS EC2 volume bilgisi: 25 GiB gp3 volume
+
 ---
+
+
 
 ## 14. Challenges and Solutions
 
