@@ -1,34 +1,35 @@
 # DevOps Case Study
 
-This repository contains a DevOps case study for deploying two different project types:
+Bu repository, iki farklı proje türünün deploy edilmesini gösteren bir DevOps case study çalışmasıdır:
 
-1. A MERN Stack application
-2. A Python ETL project
+1. MERN Stack application
+2. Python ETL project
 
-The MERN application includes a React frontend, an Express.js backend, and a MongoDB database.  
-The Python project includes an `ETL.py` script that is scheduled to run every hour using Kubernetes CronJob.
+MERN application; React frontend, Express.js backend ve MongoDB database yapısından oluşmaktadır.  
+Python project tarafında ise `ETL.py` dosyası bulunmaktadır ve bu script Kubernetes CronJob kullanılarak her saat çalışacak şekilde zamanlanmıştır.
 
 ---
 
 ## 1. Project Overview
 
-The goal of this project is to demonstrate containerization, orchestration, CI/CD, infrastructure as code, and deployment practices.
+Bu projenin amacı; containerization, orchestration, CI/CD, infrastructure as code ve deployment süreçlerini uygulamalı olarak göstermektir.
 
-This project includes:
+Bu proje kapsamında aşağıdaki yapılar hazırlanmıştır:
 
-- Dockerfiles for frontend, backend, and Python ETL
-- Docker Compose configuration for local containerized deployment
-- Kubernetes manifests for orchestration
-- Kubernetes CronJob for scheduled Python ETL execution
-- GitHub Actions workflow for CI/CD validation
-- Terraform files for AWS infrastructure provisioning
-- Screenshots showing the running system
+- Frontend, backend ve Python ETL için Dockerfile dosyaları
+- Local containerized deployment için Docker Compose configuration
+- Orchestration için Kubernetes manifests
+- Python ETL scriptinin zamanlanması için Kubernetes CronJob
+- Karşılaşılan zorluklar ve çözümleri
+- CI/CD validation için GitHub Actions workflow
+- AWS infrastructure provisioning için Terraform dosyaları
+- Çalışan sistemi gösteren screenshots
 
 ---
 
 ## 2. Architecture
 
-The MERN application architecture is:
+MERN application architecture aşağıdaki gibidir:
 
 ```text
 User Browser
@@ -43,7 +44,7 @@ Express.js Backend API
 MongoDB Database
 ```
 
-The Python ETL architecture is:
+Python ETL architecture ise aşağıdaki gibidir:
 
 ```text
 Kubernetes CronJob
@@ -58,6 +59,8 @@ GitHub API
 ---
 
 ## 3. Technologies Used
+
+Bu projede kullanılan temel teknolojiler:
 
 - React
 - Node.js
@@ -119,13 +122,15 @@ DevOps Case/
 
 ### Backend
 
+Backend’i local ortamda çalıştırmak için:
+
 ```bash
 cd mern-project/server
 npm install
 npm start
 ```
 
-The backend runs on:
+Backend aşağıdaki port üzerinde çalışır:
 
 ```text
 http://localhost:5050
@@ -139,13 +144,15 @@ http://localhost:5050/healthcheck
 
 ### Frontend
 
+Frontend’i local ortamda çalıştırmak için:
+
 ```bash
 cd mern-project/client
 npm install
 npm start
 ```
 
-The frontend runs on:
+Frontend aşağıdaki port üzerinde çalışır:
 
 ```text
 http://localhost:3000
@@ -153,13 +160,13 @@ http://localhost:3000
 
 ### MongoDB
 
-MongoDB can be started locally using Docker:
+MongoDB local ortamda Docker ile çalıştırılabilir:
 
 ```bash
 docker run -d --name devops-mongo -p 27017:27017 mongo:7
 ```
 
-MongoDB runs on:
+MongoDB bağlantı adresi:
 
 ```text
 mongodb://localhost:27017
@@ -169,7 +176,7 @@ mongodb://localhost:27017
 
 ## 6. Docker Deployment
 
-Each component has its own Dockerfile.
+Her component için ayrı bir Dockerfile hazırlanmıştır.
 
 ### Backend Docker Build
 
@@ -195,25 +202,25 @@ docker build -t devops-etl:local ./python-project
 docker run --rm devops-etl:local
 ```
 
-Expected output:
+Beklenen çıktı:
 
 ```text
 <Response [200]>
 ```
 
-This confirms that the Python ETL container can successfully reach the GitHub API.
+Bu çıktı, Python ETL container’ının GitHub API’ye başarılı şekilde erişebildiğini gösterir.
 
 ---
 
 ## 7. Docker Compose Deployment
 
-Docker Compose is used to run the MERN stack locally with a single command.
+Docker Compose, MERN stack yapısını tek komutla local containerized ortamda çalıştırmak için kullanılmıştır.
 
 ```bash
 docker compose up --build
 ```
 
-The Docker Compose setup includes:
+Docker Compose setup içinde aşağıdaki servisler bulunmaktadır:
 
 - React frontend
 - Express.js backend
@@ -231,13 +238,13 @@ Backend URL:
 http://localhost:5050
 ```
 
-MongoDB connection inside Docker Compose:
+Docker Compose içinde MongoDB bağlantısı:
 
 ```text
 mongodb://mongodb:27017
 ```
 
-To stop the Docker Compose environment:
+Docker Compose environment’ı durdurmak için:
 
 ```bash
 docker compose down
@@ -247,9 +254,9 @@ docker compose down
 
 ## 8. Kubernetes Deployment
 
-Kubernetes manifests are located in the `k8s/` directory.
+Kubernetes manifest dosyaları `k8s/` klasörü altında bulunmaktadır.
 
-### Apply Kubernetes Resources
+### Kubernetes Resources Apply
 
 ```bash
 kubectl apply -f k8s/namespace.yaml
@@ -259,13 +266,13 @@ kubectl apply -f k8s/frontend.yaml
 kubectl apply -f k8s/python-cronjob.yaml
 ```
 
-### Check Kubernetes Pods
+### Kubernetes Pods Kontrolü
 
 ```bash
 kubectl get pods -n devops-case
 ```
 
-Expected result:
+Beklenen sonuç:
 
 ```text
 backend    Running
@@ -273,13 +280,13 @@ frontend   Running
 mongodb    Running
 ```
 
-### Check Kubernetes Services
+### Kubernetes Services Kontrolü
 
 ```bash
 kubectl get svc -n devops-case
 ```
 
-Expected services:
+Beklenen services:
 
 ```text
 backend    NodePort
@@ -289,19 +296,19 @@ mongodb    ClusterIP
 
 ### Local Kubernetes Port Forwarding
 
-Frontend:
+Frontend için:
 
 ```bash
 kubectl port-forward svc/frontend 8080:80 -n devops-case
 ```
 
-Backend:
+Backend için:
 
 ```bash
 kubectl port-forward svc/backend 30050:5050 -n devops-case
 ```
 
-After port forwarding, the frontend can be accessed from:
+Port forwarding sonrası frontend aşağıdaki adresten erişilebilir:
 
 ```text
 http://localhost:8080
@@ -317,9 +324,9 @@ http://localhost:30050/healthcheck
 
 ## 9. Python ETL CronJob
 
-The Python ETL script is scheduled using Kubernetes CronJob.
+Python ETL scripti Kubernetes CronJob kullanılarak zamanlanmıştır.
 
-CronJob file:
+CronJob dosyası:
 
 ```text
 k8s/python-cronjob.yaml
@@ -331,66 +338,73 @@ Cron schedule:
 0 * * * *
 ```
 
-This means the ETL job runs at the beginning of every hour.
+Bu ifade, ETL job’unun her saatin başında çalışacağını gösterir.
 
-### Check CronJob
+### CronJob Kontrolü
 
 ```bash
 kubectl get cronjob etl-cronjob -n devops-case
 ```
 
-### Describe CronJob
+### CronJob Detaylarını Görüntüleme
 
 ```bash
 kubectl describe cronjob etl-cronjob -n devops-case
 ```
 
-### Check ETL Job Logs
+### ETL Job Logs Kontrolü
+
+Önce job adı görüntülenir:
 
 ```bash
 kubectl get jobs -n devops-case
+```
+
+Sonra ilgili job logları alınır:
+
+```bash
 kubectl logs job/<job-name> -n devops-case
 ```
 
-Successful output example:
+Başarılı çıktı örneği:
 
 ```text
 <Response [200]>
 ```
 
-This confirms that `ETL.py` successfully ran and reached the GitHub API.
+Bu çıktı, `ETL.py` dosyasının başarılı şekilde çalıştığını ve GitHub API’ye eriştiğini gösterir.
 
 ---
 
 ## 10. CI/CD Pipeline
 
-GitHub Actions is used for CI/CD validation.
+CI/CD validation için GitHub Actions kullanılmıştır.
 
-Workflow file:
+Workflow dosyası:
 
 ```text
 .github/workflows/ci-cd.yml
 ```
 
-The pipeline runs on push and pull request events.
+Pipeline, push ve pull request event’leri ile çalışır.
 
-The workflow performs these steps:
+Workflow aşağıdaki adımları gerçekleştirir:
 
-1. Checks out the repository
-2. Builds the backend Docker image
-3. Builds the frontend Docker image
-4. Builds the Python ETL Docker image
-5. Lists Docker images
+1. Repository checkout işlemi
+2. Backend Docker image build
+3. Frontend Docker image build
+4. Python ETL Docker image build
+5. Docker images listesini görüntüleme
 
-This validates that all project components can be built successfully.
+Bu işlem, tüm project components için Docker image build işlemlerinin başarılı şekilde yapılabildiğini doğrular.
 
 ---
 
 ## 11. AWS Infrastructure with Terraform
 
-Terraform files are located in the `terraform/` directory.
+Terraform dosyaları `terraform/` klasörü altında bulunmaktadır.
 
-The Terraform configuration provisions:
+Terraform configuration ile aşağıdaki AWS kaynakları hazırlanmıştır:
 
 - AWS EC2 instance
 - Security group
@@ -418,108 +432,210 @@ Terraform outputs:
 
 ---
 
-## 12. Screenshots
+## 12. AWS Deployment
 
-Screenshots are stored in the `screenshots/` directory.
+MERN application ve Python ETL CronJob AWS EC2 üzerinde deploy edilmiştir.
 
-Recommended screenshots:
+AWS tarafında kullanılan yapı:
 
-1. Docker Compose running containers
-2. Kubernetes pods running
-3. Kubernetes services
-4. Frontend API Status OK
-5. Create Record page
-6. Record List page
-7. ETL CronJob log output
-8. GitHub Actions successful pipeline
-9. AWS deployed frontend URL
-10. AWS backend healthcheck URL
+```text
+AWS EC2 Ubuntu Server
+    |
+    v
+Docker
+    |
+    v
+k3s Kubernetes
+    |
+    v
+Frontend + Backend + MongoDB + ETL CronJob
+```
+
+AWS üzerinde Docker image’ları build edilmiştir:
+
+```bash
+docker build -t devops-backend:aws ./mern-project/server
+docker build -t devops-frontend:aws --build-arg REACT_APP_API_URL=http://<EC2_PUBLIC_IP>:30050 ./mern-project/client
+docker build -t devops-etl:aws ./python-project
+```
+
+k3s, containerd kullandığı için Docker image’ları k3s image store içine import edilmiştir:
+
+```bash
+docker save devops-backend:aws | sudo k3s ctr images import -
+docker save devops-frontend:aws | sudo k3s ctr images import -
+docker save devops-etl:aws | sudo k3s ctr images import -
+```
+
+AWS üzerinde Kubernetes resources apply edilmiştir:
+
+```bash
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/mongo.yaml
+kubectl apply -f k8s/backend.yaml
+kubectl apply -f k8s/frontend.yaml
+kubectl apply -f k8s/python-cronjob.yaml
+```
+
+AWS deployment sonrası servisler aşağıdaki şekilde test edilmiştir:
+
+```text
+Frontend:
+http://<EC2_PUBLIC_IP>:30080
+
+Backend healthcheck:
+http://<EC2_PUBLIC_IP>:30050/healthcheck
+```
 
 ---
 
-## 13. Challenges and Solutions
+## 13. Screenshots
 
-### Challenge 1: Hardcoded localhost in frontend
+Screenshots dosyaları projeye eklenmiştir.
 
-The original frontend code used hardcoded backend URLs such as:
+ screenshots:
+
+1.png  - Local React frontend API Status OK ekranı
+2.png  - Docker Desktop üzerinde Docker Compose containerlarının çalışması
+3.png  - docker ps çıktısı: frontend, backend ve MongoDB containerları running
+4.png  - Terraform init ve terraform validate başarılı çıktısı
+5.png  - AWS Kubernetes servisleri: backend, frontend ve MongoDB servisleri
+6.png  - AWS public frontend URL üzerinde API Status OK ekranı
+7.png  - AWS public backend healthcheck endpoint çıktısı
+8.png  - AWS Kubernetes podları: backend, frontend ve MongoDB Running
+9.png  - GitHub Actions CI/CD workflow başarılı yeşil tik ekranı
+10.png - Kubernetes ETL CronJob manuel job log çıktısı: Response 200
+11.png - Kubernetes CronJob schedule çıktısı: 0 * * * *
+12.png - AWS EC2 instance running ekranı ve public IP bilgisi
+13.png - AWS EC2 volume bilgisi: 25 GiB gp3 volume
+---
+
+## 14. Challenges and Solutions
+
+### Challenge 1: Frontend içinde hardcoded localhost kullanımı
+
+İlk durumda frontend kodlarında backend API adresi hardcoded olarak kullanılıyordu:
 
 ```text
 http://localhost:5050
 ```
 
-This is not suitable for Docker, Kubernetes, or cloud deployment.
+Bu yapı local development için çalışsa da Docker, Kubernetes ve AWS deployment ortamlarında uygun değildir. Çünkü her ortamda backend adresi farklı olabilir.
 
 Solution:
 
-The frontend was updated to use:
+Frontend API çağrıları `REACT_APP_API_URL` environment variable kullanacak şekilde düzenlendi.
 
 ```text
 REACT_APP_API_URL
 ```
 
-This makes the backend API URL configurable for different environments.
+Bu sayede frontend build edilirken backend API adresi dışarıdan verilebilir hale getirildi.
 
----
+Örnek:
 
-### Challenge 2: Container networking
-
-Inside Docker and Kubernetes, `localhost` does not always refer to another service.
-
-Solution:
-
-- Docker Compose uses service names such as `mongodb`
-- Kubernetes uses services such as `mongodb`, `backend`, and `frontend`
-
-For example, the backend connects to MongoDB in Kubernetes using:
-
-```text
-mongodb://mongodb:27017
+```bash
+docker build -t devops-frontend:aws --build-arg REACT_APP_API_URL=http://<EC2_PUBLIC_IP>:30050 ./mern-project/client
 ```
 
 ---
 
-### Challenge 3: Python ETL scheduling
+### Challenge 2: Kubernetes image problemi
 
-The Python script needed to run every hour.
+Local Docker üzerinde image’lar başarılı şekilde build edilmesine rağmen Kubernetes pod’ları ilk aşamada şu hatayı verdi:
+
+```text
+ErrImageNeverPull
+```
+
+Bu sorun özellikle k3s ortamında yaşandı. Çünkü k3s, Docker image listesini doğrudan kullanmak yerine containerd image store kullanmaktadır. Bu nedenle `docker images` içinde görünen image’lar Kubernetes tarafından doğrudan görülemedi.
 
 Solution:
 
-A Kubernetes CronJob was created with this schedule:
+Docker image’ları `docker save` komutu ile export edilip `sudo k3s ctr images import -` komutu ile k3s/containerd image store içine import edildi.
 
-```text
-0 * * * *
+```bash
+docker save devops-backend:aws | sudo k3s ctr images import -
+docker save devops-frontend:aws | sudo k3s ctr images import -
+docker save devops-etl:aws | sudo k3s ctr images import -
 ```
 
-This schedules `ETL.py` to run every hour.
+Ayrıca Kubernetes manifest dosyalarında imagePullPolicy şu şekilde ayarlandı:
+
+```text
+imagePullPolicy: Never
+```
+
+Bu sayede Kubernetes image’ları internetten çekmeye çalışmadı ve local/import edilmiş image’ları kullandı.
 
 ---
 
-## 14. Acceptance Criteria
+### Challenge 3: Frontend Service eksikliği
+
+AWS deployment sırasında frontend pod’u Running durumundaydı; ancak frontend dışarıdan erişilebilir değildi. Yapılan kontrolde `frontend.yaml` dosyasında yalnızca Deployment kısmının bulunduğu, Service kısmının eksik olduğu görüldü.
+
+Bu durumda pod çalışmasına rağmen aşağıdaki komutta frontend servisi görünmedi:
+
+```bash
+kubectl get svc -n devops-case
+```
+
+Solution:
+
+`frontend.yaml` dosyasına NodePort tipinde bir Kubernetes Service eklendi.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: devops-case
+spec:
+  type: NodePort
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+```
+
+Bu düzenleme sonrası frontend servisi oluştu ve uygulamaya aşağıdaki adres üzerinden erişildi:
+
+```text
+http://<EC2_PUBLIC_IP>:30080
+```
+
+---
+
+## 15. Acceptance Criteria
 
 ### MERN Application
 
-- MongoDB connection works
-- Backend endpoints work
-- Frontend pages work
-- Create Record works
-- Record List works
+- MongoDB connection başarılı şekilde çalışmaktadır.
+- Backend endpoints çalışmaktadır.
+- Frontend pages çalışmaktadır.
+- Create Record işlemi çalışmaktadır.
+- Record List üzerinde kayıtlar görüntülenmektedir.
 
 ### Python Project
 
-- `ETL.py` runs successfully
-- `ETL.py` is scheduled to run every hour using Kubernetes CronJob
+- `ETL.py` başarılı şekilde çalışmaktadır.
+- `ETL.py`, Kubernetes CronJob ile her saat çalışacak şekilde zamanlanmıştır.
+- CronJob testlerinde GitHub API’den `<Response [200]>` cevabı alınmıştır.
 
 ---
 
-## 15. Conclusion
+## 16. Conclusion
 
-This project demonstrates a complete DevOps workflow for a MERN Stack application and a Python ETL project.
+Bu proje, MERN Stack application ve Python ETL project için uçtan uca bir DevOps workflow göstermektedir.
 
-The solution includes:
+Çözüm kapsamında aşağıdaki süreçler uygulanmıştır:
 
-- Containerization with Docker
-- Local multi-container deployment with Docker Compose
-- Orchestration with Kubernetes
-- Scheduled execution with Kubernetes CronJob
-- CI/CD validation with GitHub Actions
-- AWS infrastructure preparation with Terraform
+- Docker ile containerization
+- Docker Compose ile local multi-container deployment
+- Kubernetes ile orchestration
+- Kubernetes CronJob ile scheduled execution
+- GitHub Actions ile CI/CD validation
+- Terraform ile AWS infrastructure preparation
+- AWS EC2 üzerinde Docker + k3s Kubernetes deployment
